@@ -3,6 +3,7 @@ package logstash
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/Sirupsen/logrus"
 )
@@ -20,7 +21,7 @@ func (f *LogstashFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	entry.Data["@version"] = 1
 
 	if f.TimestampFormat == "" {
-		f.TimestampFormat = logrus.DefaultTimestampFormat
+		f.TimestampFormat = time.RFC3339
 	}
 
 	entry.Data["@timestamp"] = entry.Time.Format(f.TimestampFormat)
