@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	rus "github.com/Sirupsen/logrus"
+	rus "github.com/sirupsen/logrus"
 )
 
 // Fields is used to define structured records for a log entry.

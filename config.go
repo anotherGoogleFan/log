@@ -5,7 +5,7 @@ import (
 	"io"
 	"reflect"
 
-	rus "github.com/Sirupsen/logrus"
+	rus "github.com/sirupsen/logrus"
 )
 
 // Level for logging

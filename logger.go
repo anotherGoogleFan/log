@@ -4,8 +4,8 @@ import (
 	"io"
 	"sync"
 
-	rus "github.com/Sirupsen/logrus"
 	"github.com/anotherGoogleFan/log/formatter/logstash"
+	rus "github.com/sirupsen/logrus"
 )
 
 var std = newLogger()
