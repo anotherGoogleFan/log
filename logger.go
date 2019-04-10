@@ -90,8 +90,20 @@ func (l *logger) SetFormatter(formatter string) {
 	}
 }
 
+func (l *logger) SetLogrusFormatter(formatter rus.Formatter) {
+	l.mu.Lock()
+	l.l.Formatter = formatter
+	l.mu.Unlock()
+}
+
 func (l *logger) GetFormatter() string {
 	return l.formatter
+}
+
+func (l *logger) SetLogrusLogger(rl *rus.Logger) {
+	l.mu.Lock()
+	l.l = rl
+	l.mu.Unlock()
 }
 
 func (l *logger) startDaemon() {

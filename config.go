@@ -154,3 +154,11 @@ func GetFormatter() string {
 func SetOutput(o io.Writer) {
 	std.SetOutput(o)
 }
+
+func SetLogrusLogger(l *rus.Logger) {
+	std.SetLogrusLogger(l)
+}
+
+func SetLogrusFormatter(formatter rus.Formatter) {
+	std.SetLogrusFormatter(formatter)
+}
