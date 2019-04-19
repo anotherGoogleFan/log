@@ -68,6 +68,14 @@ func (d Fields) Debug(v ...interface{}) {
 	d.print(fDebug, 1, v)
 }
 
+func (d Fields) Print(v ...interface{}) {
+	d.print(fDebug, 1, v)
+}
+
+func (d Fields) Println(v ...interface{}) {
+	d.print(fDebug, 1, v)
+}
+
 // Panicf is the "format" version of Panic.
 func (d Fields) Panicf(format string, v ...interface{}) {
 	d.printf(fPanic, 1, format, v)
