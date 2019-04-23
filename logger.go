@@ -23,6 +23,10 @@ func newLogger() *logger {
 	return &logger{l: rus.New()}
 }
 
+func NewLogger() *logger {
+	return newLogger()
+}
+
 func (l *logger) print(fields Fields, msg interface{}, f logFunc) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -71,6 +75,12 @@ func (l *logger) SetOutput(w io.Writer) {
 	l.l.Out = w
 }
 
+func (l *logger) SetLogrusLogger(rl *rus.Logger) {
+	l.mu.Lock()
+	l.l = rl
+	l.mu.Unlock()
+}
+
 func (l *logger) SetFormatter(formatter string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -98,12 +108,6 @@ func (l *logger) SetLogrusFormatter(formatter rus.Formatter) {
 
 func (l *logger) GetFormatter() string {
 	return l.formatter
-}
-
-func (l *logger) SetLogrusLogger(rl *rus.Logger) {
-	l.mu.Lock()
-	l.l = rl
-	l.mu.Unlock()
 }
 
 func (l *logger) startDaemon() {
