@@ -4,8 +4,12 @@ import (
 	"io"
 	"sync"
 
-	"github.com/anotherGoogleFan/log/formatter/logstash"
-	rus "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
+)
+
+const (
+	FORMAT_JSON = "json"
+	FORMAT_TEXT = "text"
 )
 
 var std = newLogger()
@@ -14,13 +18,13 @@ type logger struct {
 	formatter string
 	mode      Mode
 	release   string
-	l         *rus.Logger
+	l         *logrus.Logger
 	daemon    daemon
 	mu        sync.Mutex
 }
 
 func newLogger() *logger {
-	return &logger{l: rus.New()}
+	return &logger{l: logrus.New()}
 }
 
 func NewLogger() *logger {
@@ -30,13 +34,13 @@ func NewLogger() *logger {
 func (l *logger) print(fields Fields, msg interface{}, f logFunc) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	f(l.l.WithFields(rus.Fields(fields)), msg)
+	f(l.l.WithFields(logrus.Fields(fields)), msg)
 }
 
 func (l *logger) SetLevel(level Level) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	l.l.Level = rus.Level(level)
+	l.l.Level = logrus.Level(level)
 }
 
 func (l *logger) GetLevel() Level {
@@ -75,7 +79,7 @@ func (l *logger) SetOutput(w io.Writer) {
 	l.l.Out = w
 }
 
-func (l *logger) SetLogrusLogger(rl *rus.Logger) {
+func (l *logger) SetLogrusLogger(rl *logrus.Logger) {
 	l.mu.Lock()
 	l.l = rl
 	l.mu.Unlock()
@@ -85,22 +89,19 @@ func (l *logger) SetFormatter(formatter string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	switch formatter {
-	case "logstash":
-		l.l.Formatter = new(logstash.LogstashFormatter)
+	case FORMAT_JSON:
+		l.l.Formatter = new(logrus.JSONFormatter)
 		l.formatter = formatter
-	case "json":
-		l.l.Formatter = new(rus.JSONFormatter)
-		l.formatter = formatter
-	case "text":
-		l.l.Formatter = new(rus.TextFormatter)
+	case FORMAT_TEXT:
+		l.l.Formatter = new(logrus.TextFormatter)
 		l.formatter = formatter
 	default:
-		l.l.Formatter = new(rus.TextFormatter)
-		l.formatter = "text"
+		l.l.Formatter = new(logrus.TextFormatter)
+		l.formatter = FORMAT_TEXT
 	}
 }
 
-func (l *logger) SetLogrusFormatter(formatter rus.Formatter) {
+func (l *logger) SetLogrusFormatter(formatter logrus.Formatter) {
 	l.mu.Lock()
 	l.l.Formatter = formatter
 	l.mu.Unlock()

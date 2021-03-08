@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	rus "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // Fields is used to define structured records for a log entry.
-type Fields rus.Fields
+type Fields logrus.Fields
 
 func (d Fields) print(f logFunc, skip int, v []interface{}) {
 	var msg interface{} = v
@@ -27,15 +27,15 @@ func (d Fields) printf(f logFunc, skip int, format string, v []interface{}) {
 	d.print(f, skip+1, []interface{}{fmt.Sprintf(format, v...)})
 }
 
-type logFunc func(entry *rus.Entry, args ...interface{})
+type logFunc func(entry *logrus.Entry, args ...interface{})
 
 var (
-	fPanic = (*rus.Entry).Panic
-	fFatal = (*rus.Entry).Fatal
-	fError = (*rus.Entry).Error
-	fWarn  = (*rus.Entry).Warn
-	fInfo  = (*rus.Entry).Info
-	fDebug = (*rus.Entry).Debug
+	fPanic = (*logrus.Entry).Panic
+	fFatal = (*logrus.Entry).Fatal
+	fError = (*logrus.Entry).Error
+	fWarn  = (*logrus.Entry).Warn
+	fInfo  = (*logrus.Entry).Info
+	fDebug = (*logrus.Entry).Debug
 )
 
 // Panic logs at the panic level and then panic.
