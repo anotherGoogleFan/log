@@ -19,7 +19,6 @@ type logger struct {
 	mode      Mode
 	release   string
 	l         *logrus.Logger
-	daemon    daemon
 	mu        sync.Mutex
 }
 
@@ -109,10 +108,4 @@ func (l *logger) SetLogrusFormatter(formatter logrus.Formatter) {
 
 func (l *logger) GetFormatter() string {
 	return l.formatter
-}
-
-func (l *logger) startDaemon() {
-	l.mu.Lock()
-	defer l.mu.Unlock()
-	l.daemon.start()
 }
